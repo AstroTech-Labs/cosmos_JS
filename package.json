@@ -1,6 +1,6 @@
 {
   "name": "cosmossdkjs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Client side JS libraries for transaction generation, signing and broadcasting to interact with supported Cosmos SDK based blockchains",
   "main": "main/index.js",
   "module": "module/index.js",
@@ -25,9 +25,9 @@
   "author": "admin@persistence.one, buidl@astrotechlabs.com",
   "license": "ASLv2",
   "bugs": {
-    "url": "https://github.com/persistenceOne/persistenceJS/issues"
+    "url": "https://github.com/AstroTech-Labs/cosmos_JS/issues"
   },
-  "homepage": "https://github.com/persistenceOne/persistenceJS#readme",
+  "homepage": "https://github.com/AstroTech-Labs/cosmos_JS",
   "dependencies": {
     "@cosmjs/amino": "^0.28.11",
     "@cosmjs/cosmwasm-stargate": "^0.28.11",
