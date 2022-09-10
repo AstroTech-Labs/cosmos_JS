@@ -1,4 +1,4 @@
-import { CosmosChainClient, cosmwasm } from "persistenceonejs";
+import { CosmosChainClient, cosmwasm } from "cosmossdkjs";
 import { contractProposal } from "./helpers/submitMsgProposal";
 import { voteYes } from "./helpers/vote";
 import { coins } from "@cosmjs/stargate";

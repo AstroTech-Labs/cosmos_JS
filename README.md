@@ -6,7 +6,7 @@
 </p>
 <p align="center">
     <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache_2.0-blue.svg"></a>
-    <a href="https://www.npmjs.com/package/persistenceonejs"><img alt="npm (scoped)" src="https://img.shields.io/npm/v/persistenceonejs.svg"> </a>
+    <a href="https://www.npmjs.com/package/cosmossdkjs"><img alt="npm (scoped)" src="https://img.shields.io/npm/v/cosmossdkjs.svg"> </a>
 </p>
 
 <p align="center">
@@ -18,7 +18,7 @@
 ## Setup
 
 ```sh
-npm install cosmosdk_js
+npm install cosmossdkjs
 ```
 
 ## Usage
