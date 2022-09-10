@@ -1,5 +1,4 @@
-import { CosmosChainClient } from "../../../types/clients/client";
-import { cosmos } from "../../../types/proto/cosmos/bundle";
+import { CosmosChainClient, cosmos, cosmwasm, osmosis } from "cosmsdkjs";
 import { coins, Coin } from "@cosmjs/stargate";
 import { Any } from "cosmjs-types/google/protobuf/any.js";
 import {Long}  from "long";

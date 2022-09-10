@@ -1,6 +1,6 @@
 {
   "name": "cosmossdkjs",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Client side JS libraries for transaction generation, signing and broadcasting to interact with supported Cosmos SDK based blockchains",
   "main": "main/index.js",
   "module": "module/index.js",
@@ -48,7 +48,7 @@
     "crypto": "^1.0.1",
     "es6-promise": "^4.2.8",
     "pako": "^2.0.4",
-    "promise": "^8.1.0"
+    "promise": "^8.1.0"    
   },
   "devDependencies": {
     "@babel/cli": "7.18.10",

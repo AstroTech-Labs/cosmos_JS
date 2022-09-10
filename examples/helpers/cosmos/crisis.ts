@@ -1,5 +1,4 @@
-import { CosmosChainClient } from "../../../types/clients/client";
-import { cosmos } from "../../../types/proto/cosmos/bundle";
+import { CosmosChainClient, cosmos, cosmwasm, osmosis } from "cosmsdkjs";
 
 // Supported tranasction interfaces - types/proto/cosmos/crisis/v1beta1/tx.rpc.msg.d.ts
 

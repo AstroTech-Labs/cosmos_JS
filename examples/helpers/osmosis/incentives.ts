@@ -1,6 +1,4 @@
-import { CosmosChainClient } from "../../../types/clients/client";
-import { osmosis } from "../../../types/proto/osmosis/bundle";
-import {cosmos} from "../../../types/proto/cosmos/bundle";
+import { CosmosChainClient, cosmos, cosmwasm, osmosis } from "cosmsdkjs";
 
 // Supported query interfaces - types/proto/osmosis/incentives/query.rpc.query.d.ts
 // Supported transaction interfaces - types/proto/osmosis/incentives/tx.rpc.msg.d.ts

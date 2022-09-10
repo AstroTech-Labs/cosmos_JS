@@ -1,8 +1,6 @@
-import { CosmosChainClient } from "../../../types/clients/client";
-import { cosmwasm } from "../../../types/proto/cosmwasm/bundle";
-import { AccessConfig} from "../../../types/proto/cosmwasm/wasm/v1/types";
+import { CosmosChainClient, cosmos, cosmwasm, osmosis } from "cosmsdkjs";
+import { AccessConfig} from "cosmsdkjs/types/proto/cosmwasm/wasm/v1/types";
 import { Coin } from "@cosmjs/stargate";
-import { cosmos } from "../../../types/proto/cosmos/bundle";
 
 // Supported query interfaces - types/proto/cosmwasm/wasm/v1/query.rpc.query.d.ts
 // Supported transaction interfaces - types/proto/cosmwasm/wasm/v1/tx.rpc.query.d.ts
