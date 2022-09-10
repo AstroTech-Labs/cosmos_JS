@@ -15,26 +15,22 @@
 
 ---
 
+The `cosmossdkjs` Library is being developed to be able to support transaction generation, signing and broadcasting to interact with supported Cosmos SDK based blockchains.
+
+NOTE - This is currently a W.I.P. Usage examples will be added soon here. 
+
+
 ## Setup
 
 ```sh
 npm install cosmossdkjs
 ```
 
-## Usage
+## Adding custom Modules support
 
-CosmosChainClient consistes of a `signingStargateClient` and a
-`SigningCowsmWasmClient`, refered to as core and wasm respectively.
+To add support for Cosmos SDK modules, you need to first transpile the ./proto files associated with that module and add the generated typescript files to the `src/proto` folder and the generated /types files to the `types/proto` folder and add them to the RPCCLient in the `src/proto/cosmwasm/rpc.query.ts` file.
 
-For querying use CosmosChainClient.query, this gives you a `tmclient`. Usage for
-a tmclient for querying is based on `cosmos-sdk` i.e. query path is taken from
-module locations.
+### DEV NOTES
 
-
-NOTE - This is currently a W.I.P. Usage examples will be added soon here. 
-
--------------------------------
-
-**Finding supported Queries and Transaction Msgs**
-
-- To figure supported queries / tx msgs supported by any cosmos module, look at `query.rpc.query.d` and `tx.rpc.msg.d` in the `types/proto/<creator>/<module_name>`.
+- Finding supported Queries and Transaction Msgs
+    - To figure supported queries / tx msgs supported by any cosmos module, look at `query.rpc.query.d` and `tx.rpc.msg.d` in the `types/proto/<creator>/<module_name>`.
