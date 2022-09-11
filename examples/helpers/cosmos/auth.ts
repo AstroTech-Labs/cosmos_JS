@@ -5,14 +5,10 @@ import { CosmosChainClient, cosmos, cosmwasm, osmosis } from "cosmsdkjs";
 //---------------------------------------------
 // COSMOS::AUTH MODULE - QUERY HELPERS
 // --------------------------------------------
-export async function query_cosmos_auth(client: CosmosChainClient) {
-	
-  
+export async function query_cosmos_auth(client: CosmosChainClient, address:string) {
   let response = await client.query.cosmos.auth.v1beta1.account(
-	cosmos.auth.v1beta1.QueryAccountRequest.fromPartial({ address: "cosmos1qyqsyqcyq5rqwzqfpg9scrgjl03hn0y2ydfh5u" })
-	  )
-	    return response;
-		
-				
+	cosmos.auth.v1beta1.QueryAccountRequest.fromPartial({address: address})
+	);
+	return response;			
 }
   
