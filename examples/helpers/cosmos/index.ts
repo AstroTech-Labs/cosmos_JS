@@ -1,3 +1,5 @@
+export { query_cosmos_auth, query_cosmos_auth_account, tx_cosmos_auth } from "./auth";
+
 export {
   query_gov_proposal,
   query_gov_proposals,
