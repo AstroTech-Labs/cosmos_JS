@@ -245,7 +245,7 @@ export const TerraClassicMainnetConfig = {
   gasAdjustment: "1.5",
 };
 export const TerraClassicTestConfig = {
-  rpc: "https://rpc.testnet.persistence.one:443",
+  rpc: "https://bombay-lcd.terra.dev",
   chainId: "bombay-12",
   gasPrices: { uluna: 0.15 },
   gasAdjustment: "1.5",
