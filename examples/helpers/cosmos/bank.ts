@@ -44,13 +44,13 @@ export async function query_cosmos_bank_total_supply(client: CosmosChainClient, 
 }
 
 export async function query_cosmos_bank_supply_of(
-  client: CosmosChainClient,
-  offset?: number,
-  limit?: number,
+  client: CosmosChainClient,  denom: string
+  
 ) {
   let response = await client.query.cosmos.bank.v1beta1.supplyOf(
     cosmos.bank.v1beta1.QuerySupplyOfRequest.fromPartial({
-      pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({ offset: offset, limit: limit }),
+      denom,
+      
     }),
   );
   return response;
@@ -63,10 +63,11 @@ export async function query_cosmos_bank_params(client: CosmosChainClient) {
   return response;
 }
 
-export async function query_cosmos_bank_denom_metadata(client: CosmosChainClient, denom: string) {
+export async function query_cosmos_bank_denom_metadata(client: CosmosChainClient,offset?: number,
+  limit?: number) {
   let response = await client.query.cosmos.bank.v1beta1.denomMetadata(
     cosmos.bank.v1beta1.QueryDenomMetadataRequest.fromPartial({
-      denom,
+      pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({ offset: offset, limit: limit }),
     }),
   );
   return response;
@@ -78,7 +79,6 @@ export async function query_cosmos_bank_denom_metadata(client: CosmosChainClient
 
 // MsgSend
 export async function execute_cosmos_bank_send(
-  client: CosmosChainClient,
   fromAddress: string,
   toAddress: string,
   amount: Coin[],
@@ -93,7 +93,6 @@ export async function execute_cosmos_bank_send(
 
 // MsgMultiSend
 export async function execute_cosmos_bank_multi_send(
-  client: CosmosChainClient,
   inputs: Input[],
   outputs: Output[],
 ) {
