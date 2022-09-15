@@ -1,5 +1,8 @@
-import { CosmosChainClient, cosmos, cosmwasm, osmosis } from "cosmsdkjs";
-import { MsgWithdrawValidatorCommissionResponse } from "./distribution";
+import {CosmosChainClient, cosmos} from "cosmsdkjs";
+import {Coin} from "../../../types/proto/cosmos/base/v1beta1/coin";
+import {CommissionRates, Description} from "../../../types/proto/cosmos/staking/v1beta1/staking";
+import {Any} from "../../../types/proto/google/protobuf/any";
+
 
 // Supported query interfaces - types/proto/cosmos/staking/v1beta1/query.rpc.query.d.ts
 // Supported transaction interfaces - types/proto/cosmos/staking/v1beta1/tx.rpc.msg.d.ts
@@ -8,545 +11,255 @@ import { MsgWithdrawValidatorCommissionResponse } from "./distribution";
 // COSMOS::STAKING MODULE - QUERY HELPERS
 // --------------------------------------------
 
-// QueryParams
-export interface QueryParamsRequest {
-  height?: string;
-  prove?: boolean;
+export async function query_cosmos_staking_validators(client: CosmosChainClient,
+                                                      status: string,
+                                                      offset?: number,
+                                                      limit?: number
+) {
+    let response = await client.query.cosmos.staking.v1beta1.validators(
+        cosmos.staking.v1beta1.QueryValidatorsRequest.fromPartial({
+            status: status,
+            pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit}),
+        }),
+    );
+    return response;
 }
 
-export interface QueryParamsResponse {
-  height: string;
-  result: {
-    params: {
-      unbondingTime: string;
-      maxValidators: number;
-      maxEntries: number;
-      historicalEntries: number;
-      bondDenom: string;
-    };
-  };
+export async function query_cosmos_staking_validator(client: CosmosChainClient, validatorAddr: string) {
+    let response = await client.query.cosmos.staking.v1beta1.validator(
+        cosmos.staking.v1beta1.QueryValidatorRequest.fromPartial({
+            validatorAddr: validatorAddr,
+
+        }),
+    );
+    return response;
 }
 
-export async function query_cosmos_staking_params(
-  client: CosmosChainClient,
-  request: QueryParamsRequest,
-): Promise<QueryParamsResponse> {
-  return await client.query<QueryParamsRequest, QueryParamsResponse>(
-    "/cosmos.staking.v1beta1.Query/Params",
-    request,
-  );
+export async function query_cosmos_staking_validator_delegations(client: CosmosChainClient,
+                                                                 validatorAddr: string,
+                                                                 offset?: number,
+                                                                 limit?: number) {
+    let response = await client.query.cosmos.staking.v1beta1.validatorDelegations(
+        cosmos.staking.v1beta1.QueryValidatorDelegationsRequest.fromPartial({
+            validatorAddr: validatorAddr,
+            pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit}),
+        }),
+    );
+    return response;
 }
 
-// QueryDelegation
-export interface QueryDelegationRequest {
-  delegatorAddr: string;
-  validatorAddr: string;
-  height?: string;
-  prove?: boolean;
+export async function query_cosmos_staking_validator_unbonding_delegations(client: CosmosChainClient,
+                                                                           validatorAddr: string,
+                                                                           offset?: number,
+                                                                           limit?: number) {
+    let response = await client.query.cosmos.staking.v1beta1.validatorUnbondingDelegations(
+        cosmos.staking.v1beta1.QueryValidatorUnbondingDelegationsRequest.fromPartial({
+            validatorAddr: validatorAddr,
+            pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit}),
+        }),
+    );
+    return response;
 }
 
-export interface QueryDelegationResponse {
-  height: string;
-  result: {
-    delegationResponse: {
-      delegation: {
-        delegatorAddress: string;
-        validatorAddress: string;
-        shares: string;
-      };
-      balance: cosmos.Coin;
-    };
-  };
+export async function query_cosmos_staking_delegation(client: CosmosChainClient, delegatorAddr: string, validatorAddr: string) {
+    let response = await client.query.cosmos.staking.v1beta1.delegation(
+        cosmos.staking.v1beta1.QueryDelegationRequest.fromPartial({
+            validatorAddr: validatorAddr,
+            delegatorAddr: delegatorAddr
+            ,
+        }),
+    );
+    return response;
 }
 
-export async function query_cosmos_staking_delegation(
-  client: CosmosChainClient,
-  request: QueryDelegationRequest,
-): Promise<QueryDelegationResponse> {
-  return await client.query<QueryDelegationRequest, QueryDelegationResponse>(
-    "/cosmos.staking.v1beta1.Query/Delegation",
-    request,
-  );
+export async function query_cosmos_staking_unbonding_delegation(client: CosmosChainClient, delegatorAddr: string, validatorAddr: string) {
+    let response = await client.query.cosmos.staking.v1beta1.unbondingDelegation(
+        cosmos.staking.v1beta1.QueryUnbondingDelegationRequest.fromPartial({
+            validatorAddr: validatorAddr,
+            delegatorAddr: delegatorAddr
+            ,
+        }),
+    );
+    return response;
 }
 
-// QueryUnbondingDelegation
-export interface QueryUnbondingDelegationRequest {
-  delegatorAddr: string;
-  validatorAddr: string;
-  height?: string;
-  prove?: boolean;
+export async function query_cosmos_staking_delegator_delegations(client: CosmosChainClient,
+                                                                 delegatorAddr: string,
+                                                                 offset?: number,
+                                                                 limit?: number) {
+    let response = await client.query.cosmos.staking.v1beta1.delegatorDelegations(
+        cosmos.staking.v1beta1.QueryDelegatorDelegationsRequest.fromPartial({
+            delegatorAddr: delegatorAddr,
+            pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit}),
+        }),
+    );
+    return response;
 }
 
-export interface QueryUnbondingDelegationResponse {
-  height: string;
-  result: {
-    unbondingResponse: {
-      delegatorAddress: string;
-      validatorAddress: string;
-      entries: {
-        initialBalance: string;
-        balance: string;
-        creationHeight: string;
-        completionTime: string;
-      }[];
-    };
-  };
+export async function query_cosmos_staking_delegator_unbonding_delegations(client: CosmosChainClient,
+                                                                           delegatorAddr: string,
+                                                                           offset?: number,
+                                                                           limit?: number) {
+    let response = await client.query.cosmos.staking.v1beta1.delegatorUnbondingDelegations(
+        cosmos.staking.v1beta1.QueryDelegatorUnbondingDelegationsRequest.fromPartial({
+            delegatorAddr: delegatorAddr,
+            pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit}),
+        }),
+    );
+    return response;
 }
 
-export async function query_cosmos_staking_unbonding_delegation(
-  client: CosmosChainClient,
-  request: QueryUnbondingDelegationRequest,
-): Promise<QueryUnbondingDelegationResponse> {
-  return await client.query<QueryUnbondingDelegationRequest, QueryUnbondingDelegationResponse>(
-    "/cosmos.staking.v1beta1.Query/UnbondingDelegation",
-    request,
-  );
+export async function query_cosmos_staking_redelegations(client: CosmosChainClient,
+                                                         delegatorAddr: string,
+                                                         srcValidatorAddr: string,
+                                                         dstValidatorAddr: string,
+                                                         offset?: number,
+                                                         limit?: number) {
+    let response = await client.query.cosmos.staking.v1beta1.redelegations(
+        cosmos.staking.v1beta1.QueryRedelegationsRequest.fromPartial({
+            delegatorAddr: delegatorAddr,
+            srcValidatorAddr: srcValidatorAddr,
+            dstValidatorAddr: dstValidatorAddr,
+            pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit}),
+        }),
+    );
+    return response;
 }
 
-// QueryDelegatorDelegations
-export interface QueryDelegatorDelegationsRequest {
-  delegatorAddr: string;
-  height?: string;
-  prove?: boolean;
+//delegatorValidators
+
+export async function query_cosmos_staking_delegator_validators(client: CosmosChainClient,
+                                                                delegatorAddr: string,
+                                                                offset?: number,
+                                                                limit?: number) {
+    let response = await client.query.cosmos.staking.v1beta1.delegatorValidators(
+        cosmos.staking.v1beta1.QueryDelegatorValidatorsRequest.fromPartial({
+            delegatorAddr: delegatorAddr,
+
+            pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit}),
+        }),
+    );
+    return response;
 }
 
-export interface QueryDelegatorDelegationsResponse {
-  height: string;
-  result: {
-    delegationResponses: {
-      delergation: {
-        delegatorAddress: string;
-        validatorAddress: string;
-        shares: string;
-      };
-      balance: cosmos.Coin;
-    }[];
-  };
+export async function query_cosmos_staking_delegator_validator(client: CosmosChainClient,
+                                                               delegatorAddr: string,
+                                                               validatorAddr: string,
+) {
+    let response = await client.query.cosmos.staking.v1beta1.delegatorValidator(
+        cosmos.staking.v1beta1.QueryDelegatorValidatorRequest.fromPartial({
+            delegatorAddr: delegatorAddr,
+            validatorAddr: validatorAddr,
+
+
+        }),
+    );
+    return response;
 }
 
-export async function query_cosmos_staking_delegator_delegations(
-  client: CosmosChainClient,
-  request: QueryDelegatorDelegationsRequest,
-): Promise<QueryDelegatorDelegationsResponse> {
-  return await client.query<QueryDelegatorDelegationsRequest, QueryDelegatorDelegationsResponse>(
-    "/cosmos.staking.v1beta1.Query/DelegatorDelegations",
-    request,
-  );
+export async function query_cosmos_staking_historical_info(client: CosmosChainClient, height: Long) {
+    let response = await client.query.cosmos.staking.v1beta1.historicalInfo(
+        cosmos.staking.v1beta1.QueryHistoricalInfoRequest.fromPartial({
+            height: height,
+        }),
+    );
+    return response;
 }
 
-// QueryDelegatorUnbondingDelegations
-export interface QueryDelegatorUnbondingDelegationsRequest {
-  delegatorAddr: string;
-  height?: string;
-  prove?: boolean;
+
+export async function query_cosmos_staking_pool(client: CosmosChainClient, poolId: Long) {
+    let response = await client.query.cosmos.staking.v1beta1.pool(
+        cosmos.staking.v1beta1.QueryPoolRequest.fromPartial({
+            poolId: poolId,
+        }),
+    );
+    return response;
 }
 
-export interface QueryDelegatorUnbondingDelegationsResponse {
-  height: string;
-  result: {
-    unbondingResponses: {
-      delegatorAddress: string;
-      validatorAddress: string;
-      entries: {
-        initialBalance: string;
-        balance: string;
-        creationHeight: string;
-        completionTime: string;
-      }[];
-    }[];
-  };
+export async function query_cosmos_staking_params(client: CosmosChainClient) {
+    let response = await client.query.cosmos.staking.v1beta1.params(
+        cosmos.staking.v1beta1.QueryParamsRequest.fromPartial({}),
+    );
+    return response;
 }
 
-export async function query_cosmos_staking_delegator_unbonding_delegations(
-  client: CosmosChainClient,
-  request: QueryDelegatorUnbondingDelegationsRequest,
-): Promise<QueryDelegatorUnbondingDelegationsResponse> {
-  return await client.query<
-    QueryDelegatorUnbondingDelegationsRequest,
-    QueryDelegatorUnbondingDelegationsResponse
-  >("/cosmos.staking.v1beta1.Query/DelegatorUnbondingDelegations", request);
-}
-
-// QueryRedelegations
-export interface QueryRedelegationsRequest {
-  delegatorAddr: string;
-  srcValidatorAddr: string;
-  dstValidatorAddr: string;
-  height?: string;
-  prove?: boolean;
-}
-
-export interface QueryRedelegationsResponse {
-  height: string;
-  result: {
-    redelgationResponses: {
-      delegatorAddress: string;
-      validatorSrcAddress: string;
-      validatorDstAddress: string;
-      entries: {
-        initialBalance: string;
-        balance: string;
-        creationHeight: string;
-        completionTime: string;
-      }[];
-    }[];
-  };
-}
-
-export async function query_cosmos_staking_redelegations(
-  client: CosmosChainClient,
-  request: QueryRedelegationsRequest,
-): Promise<QueryRedelegationsResponse> {
-  return await client.query<QueryRedelegationsRequest, QueryRedelegationsResponse>(
-    "/cosmos.staking.v1beta1.Query/Redelegations",
-    request,
-  );
-}
-
-// QueryDelegatorValidators
-
-export interface QueryDelegatorValidatorsRequest {
-  delegatorAddr: string;
-  height?: string;
-  prove?: boolean;
-}
-
-export interface QueryDelegatorValidatorsResponse {
-  height: string;
-  result: {
-    validators: {
-      operatorAddress: string;
-      consensusPubkey: string;
-      jailed: boolean;
-      status: number;
-      tokens: string;
-      delegatorShares: string;
-      description: {
-        moniker: string;
-        identity: string;
-        website: string;
-        details: string;
-      };
-      bondHeight: string;
-      bondIntraTxCounter: string;
-      unbondingHeight: string;
-      unbondingTime: string;
-      commission: {
-        commissionRates: {
-          rate: string;
-          maxRate: string;
-          maxChangeRate: string;
-        };
-        updateTime: string;
-      };
-      minSelfDelegation: string;
-    }[];
-  };
-}
-
-export async function query_cosmos_staking_delegator_validators(
-  client: CosmosChainClient,
-  request: QueryDelegatorValidatorsRequest,
-): Promise<QueryDelegatorValidatorsResponse> {
-  return await client.query<QueryDelegatorValidatorsRequest, QueryDelegatorValidatorsResponse>(
-    "/cosmos.staking.v1beta1.Query/DelegatorValidators",
-    request,
-  );
-}
-
-// QueryDelegatorValidator
-export interface QueryDelegatorValidatorRequest {
-  delegatorAddr: string;
-  validatorAddr: string;
-  height?: string;
-  prove?: boolean;
-}
-
-export interface QueryDelegatorValidatorResponse {
-  height: string;
-  result: {
-    validators: {
-      operatorAddress: string;
-      consensusPubkey: string;
-      jailed: boolean;
-      status: number;
-      tokens: string;
-      delegatorShares: string;
-      description: {
-        moniker: string;
-        identity: string;
-        website: string;
-        details: string;
-      };
-      bondHeight: string;
-      bondIntraTxCounter: string;
-      unbondingHeight: string;
-      unbondingTime: string;
-      commission: {
-        commissionRates: {
-          rate: string;
-          maxRate: string;
-          maxChangeRate: string;
-        };
-        updateTime: string;
-      };
-      minSelfDelegation: string;
-    };
-  };
-}
-
-export async function query_cosmos_staking_delegator_validator(
-  client: CosmosChainClient,
-  request: QueryDelegatorValidatorRequest,
-): Promise<QueryDelegatorValidatorResponse> {
-  return await client.query<QueryDelegatorValidatorRequest, QueryDelegatorValidatorResponse>(
-    "/cosmos.staking.v1beta1.Query/DelegatorValidator",
-    request,
-  );
-}
-
-// QueryHistoricalInfo
-export interface QueryHistoricalInfoRequest {
-  height?: string;
-  prove?: boolean;
-}
-
-export interface QueryHistoricalInfoResponse {
-  height: string;
-  result: {
-    header: {
-      version: {
-        block: string;
-        app: string;
-      };
-      chainId: string;
-      height: string;
-      time: string;
-      numTxs: string;
-      totalTxs: string;
-      lastBlockId: {
-        hash: string;
-        parts: {
-          total: string;
-          hash: string;
-        };
-      };
-      lastCommitHash: string;
-      dataHash: string;
-      validatorsHash: string;
-      nextValidatorsHash: string;
-      consensusHash: string;
-      appHash: string;
-      lastResultsHash: string;
-      evidenceHash: string;
-      proposerAddress: string;
-    };
-    valset: {
-      validator: {
-        address: string;
-        power: string;
-      }[];
-    };
-  };
-}
-
-export async function query_cosmos_staking_historical_info(
-  client: CosmosChainClient,
-  request: QueryHistoricalInfoRequest,
-): Promise<QueryHistoricalInfoResponse> {
-  return await client.query<QueryHistoricalInfoRequest, QueryHistoricalInfoResponse>(
-    "/cosmos.staking.v1beta1.Query/HistoricalInfo",
-    request,
-  );
-}
-
-// QueryPool
-
-export interface QueryPoolRequest {
-  height?: string;
-  prove?: boolean;
-}
-
-export interface QueryPoolResponse {
-  height: string;
-  result: {
-    notBondedTokens: string;
-    bondedTokens: string;
-  };
-}
-
-export async function query_cosmos_staking_pool(
-  client: CosmosChainClient,
-  request: QueryPoolRequest,
-): Promise<QueryPoolResponse> {
-  return await client.query<QueryPoolRequest, QueryPoolResponse>(
-    "/cosmos.staking.v1beta1.Query/Pool",
-    request,
-  );
-}
 
 //---------------------------------------------
 // COSMOS::STAKING MODULE - TRANSACTION HELPERS
 // --------------------------------------------
 
-// MsgCreateValidator
-export interface MsgCreateValidator {
-  description: {
-    moniker: string;
-    identity: string;
-    website: string;
-    details: string;
-  };
-  validatorAddress: string;
-  commission: {
-    rate: string;
-    maxRate: string;
-    maxChangeRate: string;
-  };
-  minSelfDelegation: string;
-  delegatorAddress: string;
-  pubkey: string;
-  value: string;
+//MsgCreateValidator
+export async function execute_cosmos_staking_create_validator(
+    description: Description,
+    commission: CommissionRates,
+    minSelfDelegation: string,
+    delegatorAddress: string,
+    validatorAddress: string,
+    pubkey: Any,
+    value: Coin,
+) {
+    let msg = cosmos.staking.v1beta1.MsgCreateValidator.fromPartial({
+        description,
+        commission,
+        minSelfDelegation,
+        delegatorAddress,
+        validatorAddress,
+        pubkey,
+        value,
+    });
+    return msg;
 }
 
-export async function tx_cosmos_staking_create_validator(
-  client: CosmosChainClient,
-  msg: MsgCreateValidator,
-  memo?: string,
-): Promise<StdTx> {
-  return await client.tx<MsgCreateValidator>("/cosmos.staking.v1beta1.Msg/CreateValidator", msg, memo);
+//MsgEditValidator
+export async function execute_cosmos_staking_edit_validator(
+    description: Description,
+    validatorAddress: string,
+) {
+    let msg = cosmos.staking.v1beta1.MsgEditValidator.fromPartial({
+        description,
+        validatorAddress,
+    });
+    return msg;
 }
 
-// MsgEditValidator
-export interface MsgEditValidator {
-  description: {
-    moniker: string;
-    identity: string;
-    website: string;
-    details: string;
-  };
-  validatorAddress: string;
-  commissionRate: string;
-  minSelfDelegation: string;
+//MsgDelegate
+export async function execute_cosmos_staking_delegate(
+    delegatorAddress: string,
+    validatorAddress: string,
+    amount: Coin,
+) {
+    let msg = cosmos.staking.v1beta1.MsgDelegate.fromPartial({
+        delegatorAddress,
+        validatorAddress,
+        amount,
+    });
+    return msg;
 }
 
-export async function tx_cosmos_staking_edit_validator(
-  client: CosmosChainClient,
-  msg: MsgEditValidator,
-  memo?: string,
-): Promise<StdTx> {
-  return await client.tx<MsgEditValidator>("/cosmos.staking.v1beta1.Msg/EditValidator", msg, memo);
+export async function execute_cosmos_staking_begin_redelegate(
+    delegatorAddress: string,
+    validatorSrcAddress: string,
+    validatorDstAddress: string,
+    amount: Coin,
+) {
+    let msg = cosmos.staking.v1beta1.MsgBeginRedelegate.fromPartial({
+        delegatorAddress,
+        validatorSrcAddress,
+        validatorDstAddress,
+        amount,
+    });
+    return msg;
 }
 
-// MsgDelegate
-export interface MsgDelegate {
-  delegatorAddress: string;
-  validatorAddress: string;
-  amount: string;
+export async function execute_cosmos_staking_undelegate(
+    delegatorAddress: string,
+    validatorAddress: string,
+    amount: Coin
+) {
+    let msg = cosmos.staking.v1beta1.MsgUndelegate.fromPartial({
+        delegatorAddress,
+        validatorAddress,
+        amount,
+    });
+    return msg;
 }
-
-export async function tx_cosmos_staking_delegate(
-  client: CosmosChainClient,
-  msg: MsgDelegate,
-  memo?: string,
-): Promise<StdTx> {
-  return await client.tx<MsgDelegate>("/cosmos.staking.v1beta1.Msg/Delegate", msg, memo);
-}
-
-// MsgBeginRedelegate
-export interface MsgBeginRedelegate {
-  delegatorAddress: string;
-  validatorSrcAddress: string;
-  validatorDstAddress: string;
-  amount: string;
-}
-
-export async function tx_cosmos_staking_begin_redelegate(
-  client: CosmosChainClient,
-  msg: MsgBeginRedelegate,
-  memo?: string,
-): Promise<StdTx> {
-  return await client.tx<MsgBeginRedelegate>("/cosmos.staking.v1beta1.Msg/BeginRedelegate", msg, memo);
-}
-
-// MsgUndelegate
-export interface MsgUndelegate {
-  delegatorAddress: string;
-  validatorAddress: string;
-  amount: string;
-}
-
-export async function tx_cosmos_staking_undelegate(
-  client: CosmosChainClient,
-  msg: MsgUndelegate,
-  memo?: string,
-): Promise<StdTx> {
-  return await client.tx<MsgUndelegate>("/cosmos.staking.v1beta1.Msg/Undelegate", msg, memo);
-}
-
-// MsgUnjail
-export interface MsgUnjail {
-  validatorAddr: string;
-}
-
-export async function tx_cosmos_staking_unjail(
-  client: CosmosChainClient,
-  msg: MsgUnjail,
-  memo?: string,
-): Promise<StdTx> {
-  return await client.tx<MsgUnjail>("/cosmos.staking.v1beta1.Msg/Unjail", msg, memo);
-}
-
-// MsgWithdrawDelegatorReward
-
-export interface MsgWithdrawDelegatorReward {
-  delegatorAddress: string;
-  validatorAddress: string;
-}
-
-export async function tx_cosmos_staking_withdraw_delegator_reward(
-  client: CosmosChainClient,
-  msg: MsgWithdrawDelegatorReward,
-  memo?: string,
-): Promise<StdTx> {
-  return await client.tx<MsgWithdrawDelegatorReward>(
-    "/cosmos.staking.v1beta1.Msg/WithdrawDelegatorReward",
-    msg,
-    memo,
-  );
-}
-
-// MsgWithdrawValidatorCommission
-
-export interface MsgWithdrawValidatorCommission {
-  validatorAddress: string;
-}
-
-export async function tx_cosmos_staking_withdraw_validator_commission(
-  client: CosmosChainClient,
-  msg: MsgWithdrawValidatorCommission,
-  memo?: string,
-): Promise<MsgWithdrawValidatorCommissionResponse> {
-  return await client.tx<MsgWithdrawValidatorCommission>(
-    "/cosmos.staking.v1beta1.Msg/WithdrawValidatorCommission",
-    msg,
-    memo,
-  );
-}
-
-// MsgFundCommunityPool
-
-export interface MsgFundCommunityPool {
-  amount: string;
-  depositor: string;
-}
-
-export async function tx_cosmos_staking_fund_community_pool(
-  client: CosmosChainClient,
-  msg: MsgFundCommunityPool,
-  memo?: string,
-): Promise<StdTx> {
-  return await client.tx<MsgFundCommunityPool>("/cosmos.staking.v1beta1.Msg/FundCommunityPool", msg, memo);
-}
-
-//---------------------------------------------
