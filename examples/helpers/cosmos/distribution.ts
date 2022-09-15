@@ -16,27 +16,36 @@ export async function query_cosmos_distribution_params(client: CosmosChainClient
 }
 
 export async function query_cosmos_distribution_validator_outstanding_rewards(client: CosmosChainClient,validatorAddress: string) {
-    let response = await client.query.cosmos.distribution.v1beta1.params(
+    let response = await client.query.cosmos.distribution.v1beta1.validatorOutstandingRewards(
         cosmos.distribution.v1beta1.QueryValidatorOutstandingRewardsRequest.fromPartial({
-            validatorAddress,
+            validatorAddress:validatorAddress,
         }),
     );
     return response;
 }
 
 export async function query_cosmos_distribution_validator_commission(client: CosmosChainClient,validatorAddress: string) {
-    let response = await client.query.cosmos.distribution.v1beta1.params(
+    let response = await client.query.cosmos.distribution.v1beta1.validatorCommission(
         cosmos.distribution.v1beta1.QueryValidatorCommissionRequest.fromPartial({
-            validatorAddress,
+            validatorAddress:validatorAddress,
         }),
     );
     return response;
 }
 
-export async function query_cosmos_distribution_validator_slashes(client: CosmosChainClient,validatorAddress: string) {
-    let response = await client.query.cosmos.distribution.v1beta1.params(
-        cosmos.distribution.v1beta1.QueryValidatorCommissionRequest.fromPartial({
-            validatorAddress,
+export async function query_cosmos_distribution_validator_slashes(client: CosmosChainClient,
+                                                                  validatorAddress: string,
+                                                                  startingHeight: Long,
+                                                                  endingHeight: Long,
+                                                                  offset?: number,
+                                                                  limit?: number,
+) {
+    let response = await client.query.cosmos.distribution.v1beta1.validatorSlashes(
+        cosmos.distribution.v1beta1.QueryValidatorSlashesRequest.fromPartial({
+            validatorAddress:validatorAddress,
+            startingHeight:startingHeight,
+            endingHeight:endingHeight,
+            pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({ offset: offset, limit: limit }),
         }),
     );
     return response;
@@ -45,10 +54,10 @@ export async function query_cosmos_distribution_validator_slashes(client: Cosmos
 
 
 export async function query_cosmos_distribution_delegation_rewards(client: CosmosChainClient,validatorAddress: string,delegatorAddress: string) {
-    let response = await client.query.cosmos.distribution.v1beta1.params(
+    let response = await client.query.cosmos.distribution.v1beta1.delegationRewards((
         cosmos.distribution.v1beta1.QueryDelegationRewardsRequest.fromPartial({
-            validatorAddress,
-            delegatorAddress,
+            validatorAddress:validatorAddress,
+            delegatorAddress:delegatorAddress,
         }),
     );
     return response;
@@ -57,7 +66,7 @@ export async function query_cosmos_distribution_delegation_rewards(client: Cosmo
 
 
 export async function query_cosmos_distribution_delegation_total_rewards(client: CosmosChainClient,delegatorAddress: string) {
-    let response = await client.query.cosmos.distribution.v1beta1.params(
+    let response = await client.query.cosmos.distribution.v1beta1.delegationTotalRewards(
         cosmos.distribution.v1beta1.QueryDelegationTotalRewardsRequest.fromPartial({
 
             delegatorAddress,
@@ -67,7 +76,7 @@ export async function query_cosmos_distribution_delegation_total_rewards(client:
 }
 
 export async function query_cosmos_distribution_delegator_validators(client: CosmosChainClient,delegatorAddress: string) {
-    let response = await client.query.cosmos.distribution.v1beta1.params(
+    let response = await client.query.cosmos.distribution.v1beta1.delegatorValidators(
         cosmos.distribution.v1beta1.QueryDelegatorValidatorsRequest.fromPartial({
 
             delegatorAddress,
@@ -78,7 +87,7 @@ export async function query_cosmos_distribution_delegator_validators(client: Cos
 
 
 export async function query_cosmos_distribution_delegator_withdraw_address(client: CosmosChainClient,delegatorAddress: string) {
-    let response = await client.query.cosmos.distribution.v1beta1.params(
+    let response = await client.query.cosmos.distribution.v1beta1.delegatorWithdrawAddress(
         cosmos.distribution.v1beta1.QueryDelegatorWithdrawAddressRequest.fromPartial({
 
             delegatorAddress,
@@ -89,7 +98,7 @@ export async function query_cosmos_distribution_delegator_withdraw_address(clien
 
 
 export async function query_cosmos_distribution_community_pool(client: CosmosChainClient) {
-    let response = await client.query.cosmos.distribution.v1beta1.params(
+    let response = await client.query.cosmos.distribution.v1beta1.communityPool(
         cosmos.distribution.v1beta1.QueryCommunityPoolRequest.fromPartial({}),
     );
     return response;
@@ -150,8 +159,3 @@ export async function execute_cosmos_distribution_fund_community_pool(
     });
     return msg;
 }
-
-
-
-
-
