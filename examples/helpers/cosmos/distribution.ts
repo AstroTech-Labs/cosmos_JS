@@ -1,4 +1,5 @@
-import { CosmosChainClient, cosmos, cosmwasm, osmosis } from "cosmsdkjs";
+import { CosmosChainClient, cosmos} from "cosmsdkjs";
+import {Coin} from "../../../types/proto/cosmos/base/v1beta1/coin";
 
 // Supported query interfaces - types/proto/cosmos/distribution/v1beta1/query.rpc.query.d.ts
 // Supported tranasction interfaces - types/proto/cosmos/distribution/v1beta1/tx.rpc.msg.d.ts
@@ -7,187 +8,150 @@ import { CosmosChainClient, cosmos, cosmwasm, osmosis } from "cosmsdkjs";
 // COSMOS::DISTRIBUTION MODULE - QUERY HELPERS
 // --------------------------------------------
 
-// QueryCommunityPool
-export interface QueryCommunityPoolRequest {
-  height?: string;
-  prove?: boolean;
-}
-export interface QueryCommunityPoolResponse {
-  height: string;
-  result: {
-    communityPool: cosmos.Coin[];
-  };
+export async function query_cosmos_distribution_params(client: CosmosChainClient) {
+    let response = await client.query.cosmos.distribution.v1beta1.params(
+        cosmos.distribution.v1beta1.QueryParamsRequest.fromPartial({}),
+    );
+    return response;
 }
 
-export async function query_cosmos_distribution_community_pool(
-  client: CosmosChainClient,
-  request: QueryCommunityPoolRequest,
-): Promise<QueryCommunityPoolResponse> {
-  return await client.query<QueryCommunityPoolRequest, QueryCommunityPoolResponse>(
-    "/cosmos.distribution.v1beta1.Query/CommunityPool",
-    request,
-  );
+export async function query_cosmos_distribution_validator_outstanding_rewards(client: CosmosChainClient,validatorAddress: string) {
+    let response = await client.query.cosmos.distribution.v1beta1.params(
+        cosmos.distribution.v1beta1.QueryValidatorOutstandingRewardsRequest.fromPartial({
+            validatorAddress,
+        }),
+    );
+    return response;
 }
+
+export async function query_cosmos_distribution_validator_commission(client: CosmosChainClient,validatorAddress: string) {
+    let response = await client.query.cosmos.distribution.v1beta1.params(
+        cosmos.distribution.v1beta1.QueryValidatorCommissionRequest.fromPartial({
+            validatorAddress,
+        }),
+    );
+    return response;
+}
+
+export async function query_cosmos_distribution_validator_slashes(client: CosmosChainClient,validatorAddress: string) {
+    let response = await client.query.cosmos.distribution.v1beta1.params(
+        cosmos.distribution.v1beta1.QueryValidatorCommissionRequest.fromPartial({
+            validatorAddress,
+        }),
+    );
+    return response;
+}
+
+
+
+export async function query_cosmos_distribution_delegation_rewards(client: CosmosChainClient,validatorAddress: string,delegatorAddress: string) {
+    let response = await client.query.cosmos.distribution.v1beta1.params(
+        cosmos.distribution.v1beta1.QueryDelegationRewardsRequest.fromPartial({
+            validatorAddress,
+            delegatorAddress,
+        }),
+    );
+    return response;
+}
+
+
+
+export async function query_cosmos_distribution_delegation_total_rewards(client: CosmosChainClient,delegatorAddress: string) {
+    let response = await client.query.cosmos.distribution.v1beta1.params(
+        cosmos.distribution.v1beta1.QueryDelegationTotalRewardsRequest.fromPartial({
+
+            delegatorAddress,
+        }),
+    );
+    return response;
+}
+
+export async function query_cosmos_distribution_delegator_validators(client: CosmosChainClient,delegatorAddress: string) {
+    let response = await client.query.cosmos.distribution.v1beta1.params(
+        cosmos.distribution.v1beta1.QueryDelegatorValidatorsRequest.fromPartial({
+
+            delegatorAddress,
+        }),
+    );
+    return response;
+}
+
+
+export async function query_cosmos_distribution_delegator_withdraw_address(client: CosmosChainClient,delegatorAddress: string) {
+    let response = await client.query.cosmos.distribution.v1beta1.params(
+        cosmos.distribution.v1beta1.QueryDelegatorWithdrawAddressRequest.fromPartial({
+
+            delegatorAddress,
+        }),
+    );
+    return response;
+}
+
+
+export async function query_cosmos_distribution_community_pool(client: CosmosChainClient) {
+    let response = await client.query.cosmos.distribution.v1beta1.params(
+        cosmos.distribution.v1beta1.QueryCommunityPoolRequest.fromPartial({}),
+    );
+    return response;
+}
+
+
 
 //---------------------------------------------
 // COSMOS::DISTRIBUTION MODULE - TRANSACTION HELPERS
 // --------------------------------------------
 
-// MsgFundCommunityPool
-export interface MsgFundCommunityPool {
-  type: "cosmos-sdk/MsgFundCommunityPool";
-  value: {
-    amount: cosmos.Coin[];
-    depositor: string;
-  };
-}
+//MsgSetWithdrawAddress
+export async function execute_cosmos_distribution_set_withdraw_address(
+    delegatorAddress: string,
+     withdrawAddress: string,
+) {
+    let msg = cosmos.distribution.v1beta1.MsgSetWithdrawAddress.fromPartial({
+        delegatorAddress,
+        withdrawAddress,
 
-export interface MsgFundCommunityPoolResponse {
-  height: string;
-  result: {
-    events: cosmos.Event[];
-    log: string;
-  };
-}
-
-// MsgFundCommunityPool
-export function make_cosmos_distribution_fund_community_pool_msg(
-  amount: cosmos.Coin[],
-  depositor: string,
-): cosmos.tx.Msg {
-  return {
-    typeUrl: "/cosmos.distribution.v1beta1.MsgFundCommunityPool",
-    value: {
-      amount: amount,
-      depositor: depositor,
-    },
-  };
-}
-
-// MsgSetWithdrawAddress
-export interface MsgSetWithdrawAddress {
-  type: "cosmos-sdk/MsgSetWithdrawAddress";
-  value: {
-    delegatorAddress: string;
-    withdrawAddress: string;
-  };
-}
-
-export interface MsgSetWithdrawAddressResponse {
-  height: string;
-  result: {
-    events: cosmos.Event[];
-    log: string;
-  };
-}
-
-// MsgSetWithdrawAddress
-export function make_cosmos_distribution_set_withdraw_address_msg(
-  delegator_address: string,
-  withdraw_address: string,
-): cosmos.tx.Msg {
-  return {
-    typeUrl: "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress",
-    value: {
-      delegatorAddress: delegator_address,
-      withdrawAddress: withdraw_address,
-    },
-  };
+    });
+    return msg;
 }
 
 // MsgWithdrawDelegatorReward
-export interface MsgWithdrawDelegatorReward {
-  type: "cosmos-sdk/MsgWithdrawDelegatorReward";
-  value: {
-    delegatorAddress: string;
-    validatorAddress: string;
-  };
+export async function execute_cosmos_distribution_withdraw_delegator_reward(
+    delegatorAddress: string,
+    withdrawAddress: string,
+) {
+    let msg = cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward.fromPartial({
+        delegatorAddress,
+        withdrawAddress,
+
+    });
+    return msg;
 }
 
-export interface MsgWithdrawDelegatorRewardResponse {
-  height: string;
-  result: {
-    events: cosmos.Event[];
-    log: string;
-  };
+//MsgWithdrawValidatorCommission
+export async function execute_cosmos_distribution_withdraw_validator_commission(
+    validatorAddress: string,
+) {
+    let msg = cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission.fromPartial({
+        validatorAddress,
+
+    });
+    return msg;
 }
 
-// MsgWithdrawDelegatorReward
-export function make_cosmos_distribution_withdraw_delegator_reward_msg(
-  delegator_address: string,
-  validator_address: string,
-): cosmos.tx.Msg {
-  return {
-    typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-    value: {
-      delegatorAddress: delegator_address,
-      validatorAddress: validator_address,
-    },
-  };
+//MsgFundCommunityPool
+export async function execute_cosmos_distribution_fund_community_pool(
+    amount: Coin[],
+   depositor: string,
+) {
+    let msg = cosmos.distribution.v1beta1.MsgFundCommunityPool.fromPartial({
+        amount,
+        depositor,
+
+    });
+    return msg;
 }
 
-// MsgWithdrawValidatorCommission
-export interface MsgWithdrawValidatorCommission {
-  type: "cosmos-sdk/MsgWithdrawValidatorCommission";
-  value: {
-    validatorAddress: string;
-  };
-}
 
-export interface MsgWithdrawValidatorCommissionResponse {
-  height: string;
-  result: {
-    events: cosmos.Event[];
-    log: string;
-  };
-}
 
-// MsgWithdrawValidatorCommission
-export function make_cosmos_distribution_withdraw_validator_commission_msg(
-  validator_address: string,
-): cosmos.tx.Msg {
-  return {
-    typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
-    value: {
-      validatorAddress: validator_address,
-    },
-  };
-}
 
-// MsgFundCommunityPool
-export async function send_cosmos_distribution_fund_community_pool_msg(
-  client: CosmosChainClient,
-  msg: MsgFundCommunityPool,
-  memo = "",
-): Promise<MsgFundCommunityPoolResponse> {
-  return await client.send<MsgFundCommunityPool, MsgFundCommunityPoolResponse>(msg, memo);
-}
 
-// MsgSetWithdrawAddress
-export async function send_cosmos_distribution_set_withdraw_address_msg(
-  client: CosmosChainClient,
-  msg: MsgSetWithdrawAddress,
-  memo = "",
-): Promise<MsgSetWithdrawAddressResponse> {
-  return await client.send<MsgSetWithdrawAddress, MsgSetWithdrawAddressResponse>(msg, memo);
-}
-
-// MsgWithdrawDelegatorReward
-export async function send_cosmos_distribution_withdraw_delegator_reward_msg(
-  client: CosmosChainClient,
-  msg: MsgWithdrawDelegatorReward,
-  memo = "",
-): Promise<MsgWithdrawDelegatorRewardResponse> {
-  return await client.send<MsgWithdrawDelegatorReward, MsgWithdrawDelegatorRewardResponse>(msg, memo);
-}
-
-// MsgWithdrawValidatorCommission
-export async function send_cosmos_distribution_withdraw_validator_commission_msg(
-  client: CosmosChainClient,
-  msg: MsgWithdrawValidatorCommission,
-  memo = "",
-): Promise<MsgWithdrawValidatorCommissionResponse> {
-  return await client.send<MsgWithdrawValidatorCommission, MsgWithdrawValidatorCommissionResponse>(msg, memo);
-}
-
-// ---------------------------------------------
