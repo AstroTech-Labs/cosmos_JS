@@ -7,14 +7,14 @@ import { CosmosChainClient, cosmos} from "cosmsdkjs";
 
 export async function query_cosmos_mint_params(client: CosmosChainClient) {
     let response = await client.query.cosmos.mint.v1beta1.params(
-        cosmos.bank.v1beta1.QueryParamsRequest.fromPartial({}),
+        cosmos.mint.v1beta1.QueryParamsRequest.fromPartial({}),
     );
     return response;
 }
 
 export async function query_cosmos_mint_inflation(client: CosmosChainClient) {
     let response = await client.query.cosmos.mint.v1beta1.inflation(
-        cosmos.bank.v1beta1.QueryInflationRequest.fromPartial({}),
+        cosmos.mint.v1beta1.QueryInflationRequest.fromPartial({}),
     );
     return response;
 }
@@ -23,7 +23,7 @@ export async function query_cosmos_mint_inflation(client: CosmosChainClient) {
 
 export async function query_cosmos_mint_annual_provisions(client: CosmosChainClient) {
     let response = await client.query.cosmos.mint.v1beta1.annualProvisions(
-        cosmos.bank.v1beta1. QueryAnnualProvisionsRequest.fromPartial({}),
+        cosmos.mint.v1beta1. QueryAnnualProvisionsRequest.fromPartial({}),
     );
     return response;
 }
