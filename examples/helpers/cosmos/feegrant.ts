@@ -1,6 +1,7 @@
 import { CosmosChainClient, cosmos} from "cosmsdkjs";
 import {Coin} from "../../../types/proto/cosmos/base/v1beta1/coin";
 import { Any } from "../../../types/proto/google/protobuf/any";
+import {Long}  from "long";
 
 // Supported query interfaces - types/proto/cosmos/feegrant/v1beta1/query.rpc.query.d.ts
 // Supported tranasction interfaces - types/proto/cosmos/feegrant/v1beta1/tx.rpc.msg.d.ts
