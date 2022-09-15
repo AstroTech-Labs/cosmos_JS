@@ -1,7 +1,8 @@
-import { CosmosChainClient, cosmos, cosmwasm, osmosis } from "cosmsdkjs";
-import { coins, Coin } from "@cosmjs/stargate";
-import { Any } from "cosmjs-types/google/protobuf/any.js";
-import {Long}  from "long";
+import {CosmosChainClient, cosmos} from "cosmsdkjs";
+import {Coin} from "../../../types/proto/cosmos/base/v1beta1/coin";
+import {ProposalStatus, VoteOption, WeightedVoteOption} from "../../../types/proto/cosmos/gov/v1beta1/gov";
+import {Any} from "../../../types/proto/google/protobuf/any";
+
 
 // Supported query interfaces - types/proto/cosmos/gov/v1beta1/query.rpc.query.d.ts
 // Supported tranasction interfaces - types/proto/cosmos/gov/v1beta1/tx.rpc.msg.d.ts
@@ -10,186 +11,160 @@ import {Long}  from "long";
 // COSMOS::GOV MODULE - QUERY HELPERS
 // --------------------------------------------
 
-
-// Proposal queries proposal details based on ProposalID
-  // PROPOSAL_STATUS_UNSPECIFIED = 0
-  // PROPOSAL_STATUS_DEPOSIT_PERIOD = 1
-  // PROPOSAL_STATUS_VOTING_PERIOD = 2
-  // PROPOSAL_STATUS_PASSED = 3
-  // PROPOSAL_STATUS_REJECTED = 4
-  // PROPOSAL_STATUS_FAILED = 5
-export async function query_gov_proposal(
-  client: CosmosChainClient,
-  proposalId: number
-) {
-  let response = await client.query.cosmos.gov.v1beta1.proposal(
-    cosmos.gov.v1beta1.QueryProposalRequest.fromPartial({proposalId: proposalId}) 
-  );
-  return response;
+export async function query_cosmos_gov_proposal(client: CosmosChainClient, proposalId: Long) {
+    let response = await client.query.cosmos.gov.v1beta1.proposal(
+        cosmos.gov.v1beta1.QueryProposalRequest.fromPartial({
+            proposalId,
+        }),
+    );
+    return response;
 }
 
-// Proposals queries all proposals based on given status.
-export async function query_gov_proposals(
-  client: CosmosChainClient,
-  proposalStatus: number,
-  voter: string,
-  depositor: string,
-  limit?: number,
-  offset?:number 
+export async function query_cosmos_gov_proposals(client: CosmosChainClient,
+                                                 proposalStatus: ProposalStatus,
+                                                 voter: string,
+                                                 depositor: string,
+                                                 offset?: number,
+                                                 limit?: number,
 ) {
-  let response = await client.query.cosmos.gov.v1beta1.proposals(
-    cosmos.gov.v1beta1.QueryProposalsRequest.fromPartial({ 
-      proposalStatus: cosmos.gov.v1beta1.proposalStatusFromJSON(proposalStatus),
-      voter: voter,
-      depositor: depositor,
-      pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit})
-     })
-  );
-  return response;
+    let response = await client.query.cosmos.gov.v1beta1.proposals(
+        cosmos.gov.v1beta1.QueryProposalsRequest.fromPartial({
+            proposalStatus,
+            voter,
+            depositor,
+            pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit}),
+        }),
+    );
+    return response;
 }
 
-// Vote queries voted information based on proposalID, voterAddr
-export async function query_gov_vote(
-  client: CosmosChainClient,
-  proposalId: number,
-  voter: string
+export async function query_cosmos_gov_vote(client: CosmosChainClient,
+                                            proposalId: Long,
+                                            voter: string,
 ) {
-  let response = await client.query.cosmos.gov.v1beta1.vote(
-    cosmos.gov.v1beta1.QueryVoteRequest.fromPartial({ proposalId: proposalId, voter: voter })
-  );
-  return response;
+    let response = await client.query.cosmos.gov.v1beta1.vote(
+        cosmos.gov.v1beta1.QueryVoteRequest.fromPartial({
+            proposalId,
+            voter,
+        }),
+    );
+    return response;
 }
 
-// Votes queries votes of a given proposal.
-export async function query_gov_votes(
-  client: CosmosChainClient,
-  proposalId: number,
-  offset?: number,
-  limit?: number
+export async function query_cosmos_gov_votes(client: CosmosChainClient,
+                                             proposalId: Long,
+                                             offset?: number,
+                                             limit?: number,
 ) {
-  let response = await client.query.cosmos.gov.v1beta1.votes(
-    cosmos.gov.v1beta1.QueryVotesRequest.fromPartial({ proposalId: proposalId, 
-      pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit})
-     })
-  );
-  return response;
+    let response = await client.query.cosmos.gov.v1beta1.votes(
+        cosmos.gov.v1beta1.QueryVotesRequest.fromPartial({
+            proposalId,
+            pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit}),
+        }),
+    );
+    return response;
 }
 
-// Params queries all parameters of the gov module.
-// params_type defines which parameters to query for, can be one of "voting", "tallying" or "deposit".
-export async function query_gov_params(
-  client: CosmosChainClient,
-  paramsType: string
-) {
-  let response = await client.query.cosmos.gov.v1beta1.params(
-    cosmos.gov.v1beta1.QueryParamsRequest.fromPartial({ paramsType: paramsType })
-  );
-  return response;
+export async function query_cosmos_gov_params(client: CosmosChainClient) {
+    let response = await client.query.cosmos.gov.v1beta1.params(
+        cosmos.gov.v1beta1.QueryParamsRequest.fromPartial({}),
+    );
+    return response;
 }
 
-// Deposit queries single deposit information based proposalID, depositAddr.
-export async function query_gov_deposit(
-  client: CosmosChainClient,
-  proposalId: number,
-  depositor: string
-) {
-  let response = await client.query.cosmos.gov.v1beta1.deposit(
-    cosmos.gov.v1beta1.QueryDepositRequest.fromPartial({ proposalId: proposalId, depositor: depositor })
-  );
-  return response;
+export async function query_cosmos_gov_deposit(client: CosmosChainClient, proposalId: Long, depositor: string) {
+    let response = await client.query.cosmos.gov.v1beta1.deposit(
+        cosmos.gov.v1beta1.QueryDepositRequest.fromPartial({
+            proposalId,
+            depositor,
+        }),
+    );
+    return response;
 }
 
-// Deposits queries all deposits of a single proposal.
-export async function query_gov_deposits(
-  client: CosmosChainClient,
-  proposalId: number,
-  offset?: number,
-  limit?: number
-) {
-  let response = await client.query.cosmos.gov.v1beta1.deposits(
-    cosmos.gov.v1beta1.QueryDepositsRequest.fromPartial({  proposalId: proposalId, 
-      pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit}) })
-  );
-  return response;
+export async function query_cosmos_gov_deposits(client: CosmosChainClient,
+                                                proposalId: Long,
+                                                offset?: number,
+                                                limit?: number,) {
+    let response = await client.query.cosmos.gov.v1beta1.deposits(
+        cosmos.gov.v1beta1.QueryDepositsRequest.fromPartial({
+            proposalId,
+            pagination: cosmos.base.query.v1beta1.PageRequest.fromPartial({offset: offset, limit: limit}),
+        }),
+    );
+    return response;
 }
 
-// TallyResult queries the tally of a proposal vote.
-export async function query_gov_tallyresult(
-  client: CosmosChainClient,
-  proposalId: number,
-) {
-  let response = await client.query.cosmos.gov.v1beta1.tallyResult(
-    cosmos.gov.v1beta1.QueryTallyResultRequest.fromPartial({ proposalId: proposalId })
-  );
-  return response;
+export async function query_cosmos_gov_tally_result(client: CosmosChainClient,
+                                                    proposalId: Long) {
+    let response = await client.query.cosmos.gov.v1beta1.tallyResult(
+        cosmos.gov.v1beta1.QueryTallyResultRequest.fromPartial({
+            proposalId,
+        }),
+    );
+    return response;
 }
-
 
 //---------------------------------------------
 // COSMOS::GOV MODULE - TRANSACTION HELPERS
 // --------------------------------------------
 
-export async function make_cosmos_gov_submitProposal_msg(
-    client: CosmosChainClient,
-    proposal: { typeUrl?: string; value?: Uint8Array },
-    denom: string,
-    deposit: number
-  ) {
-    const [account] = await client.wallet.getAccounts();
-    let submit_proposal_msg = cosmos.gov.v1beta1.MsgSubmitProposal.fromPartial({
-        content: {
-            typeUrl: proposal.typeUrl,
-            value: proposal.value,
-        },
-        initialDeposit: coins(deposit, denom),
-        proposer: account.address
-    });
-    return submit_proposal_msg
-  }
-  
-  export async function make_cosmos_gov_vote_msg(
-    client: CosmosChainClient,
-    proposalid: number,
-    vote: number
-  ) { 
-    const [account] = await client.wallet.getAccounts();
-    let vote_msg = cosmos.gov.v1beta1.MsgVote.fromPartial({
-        proposalId: proposalid,
-        voter: account.address,
-        option: vote
-    });
-    return vote_msg;
-  }
-    
-  export async function make_cosmos_gov_voteWeighted_msg(
-    client: CosmosChainClient,
-    proposalid: number,
-    options: any,
-  ) { 
-    const [account] = await client.wallet.getAccounts();
-    let vote_weighted_msg = cosmos.gov.v1beta1.MsgVoteWeighted.fromPartial({
-        proposalId: proposalid,
-        voter: account.address,
-        options: options
-    });
-    return vote_weighted_msg;
-  }
+//MsgSubmitProposal
+export async function execute_cosmos_gov_submit_proposal(
+    content: Any,
+    initialDeposit: Coin[],
+    proposer: string,
+) {
+    let msg = cosmos.gov.v1beta1.MsgSubmitProposald.fromPartial({
 
-  export async function make_cosmos_gov_deposit_msg(
-    client: CosmosChainClient,
-    proposal_id: number,
-    amount_: string,
-    denom: string
-  ) {
-    const [account] = await client.wallet.getAccounts();
-    let deposit_msg = cosmos.gov.v1beta1.MsgDeposit.fromPartial({
-            proposalId: proposal_id,
-            depositor: account.address,
-            amount: [{
-              denom: denom,
-              amount: amount_
-            }]
-        });
-    return deposit_msg
-  }
-  
+        content,
+        initialDeposit,
+        proposer,
+    });
+    return msg;
+}
+
+//MsgVote
+export async function execute_cosmos_gov_vote(
+    proposalId: Long,
+    voter: string,
+    option: VoteOption,
+) {
+    let msg = cosmos.gov.v1beta1.MsgVote.fromPartial({
+
+        proposalId,
+        voter,
+        option,
+    });
+    return msg;
+}
+
+//MsgVoteWeighted
+export async function execute_cosmos_gov_vote_weighted(
+    proposalId: Long,
+    voter: string,
+    options: WeightedVoteOption[],
+) {
+    let msg = cosmos.gov.v1beta1.MsgVoteWeighted.fromPartial({
+
+        proposalId,
+        voter,
+        options,
+    });
+    return msg;
+}
+
+//MsgDeposit
+export async function execute_cosmos_gov_deposit(
+    proposalId: Long,
+    depositor: string,
+    amount: Coin[],
+) {
+    let msg = cosmos.gov.v1beta1.MsgDeposit.fromPartial({
+
+        proposalId,
+        depositor,
+        amount,
+    });
+    return msg;
+}
