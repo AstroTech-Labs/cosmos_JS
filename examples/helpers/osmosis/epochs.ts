@@ -1,4 +1,4 @@
-import { CosmosChainClient, cosmos, cosmwasm, osmosis } from "cosmsdkjs";
+import { CosmosChainClient, osmosis } from "cosmsdkjs";
 
 // Supported query interfaces - types/proto/osmosis/epochs/query.rpc.query.d.ts
 
