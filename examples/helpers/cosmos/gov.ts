@@ -11,7 +11,7 @@ import {Any} from "../../../types/proto/google/protobuf/any";
 // COSMOS::GOV MODULE - QUERY HELPERS
 // --------------------------------------------
 
-export async function query_cosmos_gov_proposal(client: CosmosChainClient, proposalId: Long) {
+export async function query_cosmos_gov_proposal(client: CosmosChainClient, proposalId: number) {
     let response = await client.query.cosmos.gov.v1beta1.proposal(
         cosmos.gov.v1beta1.QueryProposalRequest.fromPartial({
             proposalId,
@@ -39,7 +39,7 @@ export async function query_cosmos_gov_proposals(client: CosmosChainClient,
 }
 
 export async function query_cosmos_gov_vote(client: CosmosChainClient,
-                                            proposalId: Long,
+                                            proposalId: number,
                                             voter: string,
 ) {
     let response = await client.query.cosmos.gov.v1beta1.vote(
@@ -52,7 +52,7 @@ export async function query_cosmos_gov_vote(client: CosmosChainClient,
 }
 
 export async function query_cosmos_gov_votes(client: CosmosChainClient,
-                                             proposalId: Long,
+                                             proposalId: number,
                                              offset?: number,
                                              limit?: number,
 ) {
@@ -72,7 +72,7 @@ export async function query_cosmos_gov_params(client: CosmosChainClient) {
     return response;
 }
 
-export async function query_cosmos_gov_deposit(client: CosmosChainClient, proposalId: Long, depositor: string) {
+export async function query_cosmos_gov_deposit(client: CosmosChainClient, proposalId: number, depositor: string) {
     let response = await client.query.cosmos.gov.v1beta1.deposit(
         cosmos.gov.v1beta1.QueryDepositRequest.fromPartial({
             proposalId,
@@ -83,7 +83,7 @@ export async function query_cosmos_gov_deposit(client: CosmosChainClient, propos
 }
 
 export async function query_cosmos_gov_deposits(client: CosmosChainClient,
-                                                proposalId: Long,
+                                                proposalId: number,
                                                 offset?: number,
                                                 limit?: number,) {
     let response = await client.query.cosmos.gov.v1beta1.deposits(
@@ -96,7 +96,7 @@ export async function query_cosmos_gov_deposits(client: CosmosChainClient,
 }
 
 export async function query_cosmos_gov_tally_result(client: CosmosChainClient,
-                                                    proposalId: Long) {
+                                                    proposalId: number) {
     let response = await client.query.cosmos.gov.v1beta1.tallyResult(
         cosmos.gov.v1beta1.QueryTallyResultRequest.fromPartial({
             proposalId,
@@ -110,7 +110,7 @@ export async function query_cosmos_gov_tally_result(client: CosmosChainClient,
 // --------------------------------------------
 
 //MsgSubmitProposal
-export async function execute_cosmos_gov_submit_proposal(
+export async function execute_cosmos_gov_submit_proposal_msg(
     content: Any,
     initialDeposit: Coin[],
     proposer: string,
@@ -125,8 +125,8 @@ export async function execute_cosmos_gov_submit_proposal(
 }
 
 //MsgVote
-export async function execute_cosmos_gov_vote(
-    proposalId: Long,
+export async function execute_cosmos_gov_vote_msg(
+    proposalId: number,
     voter: string,
     option: VoteOption,
 ) {
@@ -140,8 +140,8 @@ export async function execute_cosmos_gov_vote(
 }
 
 //MsgVoteWeighted
-export async function execute_cosmos_gov_vote_weighted(
-    proposalId: Long,
+export async function execute_cosmos_gov_vote_weighted_msg(
+    proposalId: number,
     voter: string,
     options: WeightedVoteOption[],
 ) {
@@ -155,8 +155,8 @@ export async function execute_cosmos_gov_vote_weighted(
 }
 
 //MsgDeposit
-export async function execute_cosmos_gov_deposit(
-    proposalId: Long,
+export async function execute_cosmos_gov_deposit_msg(
+    proposalId: number,
     depositor: string,
     amount: Coin[],
 ) {

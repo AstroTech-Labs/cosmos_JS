@@ -51,7 +51,7 @@ export async function query_osmosis_superfluid_allIntermediaryAccounts(client: C
     return response;
 }
 
-export async function query_osmosis_superfluid_connectedIntermediaryAccountr(client: CosmosChainClient, lockID: Long) {
+export async function query_osmosis_superfluid_connectedIntermediaryAccountr(client: CosmosChainClient, lockID: number) {
     let response = await client.query.osmosis.superfluid.connectedIntermediaryAccount(
         osmosis.superfluid.AssetMultiplierRequest.fromPartial({
             lockID,
@@ -135,7 +135,7 @@ export async function query_osmosis_superfluid_estimateSuperfluidDelegatedAmount
 //MsgSuperfluidDelegate
 export async function execute_osmosis_superfluid_superfluidDelegate(
     sender: string,
-    lockId: Long,
+    lockId: number,
     valAddr: string,
 ) {
     let msg = osmosis.superfluid.MsgSuperfluidDelegate.fromPartial({
@@ -150,7 +150,7 @@ export async function execute_osmosis_superfluid_superfluidDelegate(
 //MsgSuperfluidUndelegate
 export async function execute_osmosis_superfluid_superfluidUndelegate(
     sender: string,
-    lockId: Long,
+    lockId: number,
 ) {
     let msg = osmosis.superfluid.MsgSuperfluidUndelegate.fromPartial({
 
@@ -164,7 +164,7 @@ export async function execute_osmosis_superfluid_superfluidUndelegate(
 //MsgSuperfluidUnbondLock
 export async function execute_osmosis_superfluid_superfluidUnbondLock(
     sender: string,
-    lockId: Long,
+    lockId: number,
 ) {
     let msg = osmosis.superfluid.MsgSuperfluidUnbondLock.fromPartial({
 
@@ -194,7 +194,7 @@ export async function execute_osmosis_superfluid_lockAndSuperfluidDelegate(
 //MsgUnPoolWhitelistedPool
 export async function execute_osmosis_superfluid_unPoolWhitelistedPool(
     sender: string,
-    poolId: Long
+    poolId: number
 ) {
     let msg = osmosis.superfluid.MsgUnPoolWhitelistedPool.fromPartial({
 

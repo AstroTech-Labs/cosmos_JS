@@ -12,7 +12,7 @@ export async function execute_cosmos_vesting_create_vesting_account(
     fromAddress: string,
     toAddress: string,
     amount: Coin[],
-    endTime: Long,
+    endTime: Number,
     delayed: boolean,
 
 ) {

@@ -35,8 +35,8 @@ export async function query_cosmos_distribution_validator_commission(client: Cos
 
 export async function query_cosmos_distribution_validator_slashes(client: CosmosChainClient,
                                                                   validatorAddress: string,
-                                                                  startingHeight: Long,
-                                                                  endingHeight: Long,
+                                                                  startingHeight: number,
+                                                                  endingHeight: number,
                                                                   offset?: number,
                                                                   limit?: number,
 ) {
