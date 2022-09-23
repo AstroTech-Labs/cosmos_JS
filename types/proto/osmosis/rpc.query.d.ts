@@ -3,6 +3,9 @@ export declare const createRPCQueryClient: ({ rpc }: {
     rpc: Rpc;
 }) => Promise<{
     cosmos: {
+        app: {
+            v1alpha1: any;
+        };
         auth: {
             v1beta1: import("../cosmos/auth/v1beta1/query.rpc.query").QueryClientImpl;
         };
@@ -22,10 +25,17 @@ export declare const createRPCQueryClient: ({ rpc }: {
             v1beta1: import("../cosmos/feegrant/v1beta1/query.rpc.query").QueryClientImpl;
         };
         gov: {
+            v1: any;
             v1beta1: import("../cosmos/gov/v1beta1/query.rpc.query").QueryClientImpl;
+        };
+        group: {
+            v1: any;
         };
         mint: {
             v1beta1: import("../cosmos/mint/v1beta1/query.rpc.query").QueryClientImpl;
+        };
+        nft: {
+            v1beta1: any;
         };
         params: {
             v1beta1: import("../cosmos/params/v1beta1/query.rpc.query").QueryClientImpl;
