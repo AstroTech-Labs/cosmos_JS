@@ -1,4 +1,5 @@
 import { stringToPath, HdPath } from "@cosmjs/crypto";
+import {WalletOptions} from "../clients";
 // https://github.com/cosmos/chain-registry
 
 
@@ -13,7 +14,7 @@ export const ThorchainMainnetConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const ThorchainWalletOptions = {
+export const ThorchainWalletOptions : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/931'/0'/0/0")],
   prefix: "thor",
@@ -29,7 +30,7 @@ export const InjectiveMainnetConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const InjectiveWalletOptions = {
+export const InjectiveWalletOptions : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/60'/0'/0/0")],
   prefix: "inj",
@@ -45,7 +46,7 @@ export const AkashMainnetConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const AkashWalletOptions = {
+export const AkashWalletOptions  : WalletOptions= {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/118'/0'/0/0")],
   prefix: "uakt",
@@ -62,7 +63,7 @@ export const CosmosMainnetConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const CosmosWalletOptions = {
+export const CosmosWalletOptions  : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/118'/0'/0/0")],
   prefix: "cosmos",
@@ -79,7 +80,7 @@ export const SecretMainnetConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const SecretWalletOptions = {
+export const SecretWalletOptions  : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/529'/0'/0/0")],
   prefix: "secret",
@@ -96,7 +97,7 @@ export const FetchMainnetConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const FetchWalletOptions = {
+export const FetchWalletOptions  : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/118'/0'/0/0")],
   prefix: "fetch",
@@ -114,7 +115,7 @@ export const JunoMainnetConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const JunoWalletOptions = {
+export const JunoWalletOptions  : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/118'/0'/0/0")],
   prefix: "juno",
@@ -132,7 +133,7 @@ export const EvmosMainnetConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const EvmosWalletOptions = {
+export const EvmosWalletOptions  : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/60'/0'/0/0")],
   prefix: "evmos",
@@ -158,7 +159,7 @@ export const KujiraMainnetConfig = {
 //   gasAdjustment: "1.5",
 // };
 // wallet options
-export const KujiraWalletOptions = {
+export const KujiraWalletOptions  : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/118'/0'/0/0")],
   prefix: "kujira",
@@ -200,7 +201,7 @@ export const OsmosisLocalConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const OsmosisWalletOptions = {
+export const OsmosisWalletOptions  : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/118'/0'/0/0")],
   prefix: "osmo",
@@ -224,7 +225,7 @@ export const Terra2TestnetConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const Terra2WalletOptions = {
+export const Terra2WalletOptions  : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/330'/0'/0/0")],
   prefix: "terra",
@@ -257,7 +258,7 @@ export const TerraClassicLocalConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const TerraClassicWalletOptions = {
+export const TerraClassicWalletOptions  : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/330'/0'/0/0")],
   prefix: "terra",
@@ -296,7 +297,7 @@ export const PersistenceLocalConfig = {
   gasAdjustment: "1.5",
 };
 // wallet options
-export const PersistenceWalletOptions = {
+export const PersistenceWalletOptions  : WalletOptions = {
   bip39Password: "",
   hdPaths: [stringToPath("m/44'/118'/0'/0/0")],
   prefix: "persistence",
