@@ -1,5 +1,5 @@
-export * as cosmosHelpers from "./cosmos";
-export * as osmosisHelpers from "./osmosis";
-export * as wasmHelpers from "./cosmwasm";
-export * as ibcHelpers from "./ibc";
+export * as cosmosHelpers from "./utils/cosmos";
+export * as osmosisHelpers from "./utils/osmosis";
+export * as wasmHelpers from "./utils/cosmwasm";
+export * as ibcHelpers from "./utils/ibc";
 

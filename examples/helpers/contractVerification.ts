@@ -1,7 +1,5 @@
 import { Slip10RawIndex, pathToString, stringToPath } from "@cosmjs/crypto";
-import { CosmosChainClient, cosmwasm } from "cosmossdkjs";
-import {
-  query_wasm_contractInfo,
+import { query_wasm_contractInfo,
   query_wasm_contractHistory,
   query_wasm_contractsByCode,
   query_wasm_allContractState,
@@ -17,7 +15,9 @@ import {
   make_migrateContract_msg,
   make_updateAdmin_msg,
   make_clearAdmin_msg,
-} from "cosmossdkjs/src/utils/cosmwasm";
+  CosmosChainClient } from "cosmossdkjs";
+
+
 
 async function coswasm_module_client_functions_testing() {
   const mnemonic = process.env.WALLET_MNEMONIC;
@@ -34,6 +34,9 @@ async function coswasm_module_client_functions_testing() {
   const CHAIN_ID = chain_id;
 
   // Create a new persistence client
+  // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
   const client = await CosmosChainClient.init(
     mnemonic,
     {
@@ -47,6 +50,7 @@ async function coswasm_module_client_functions_testing() {
     },
     {
       bip39Password: "",
+      // @ts-ignore
       hdPaths: [stringToPath("m/44'/118'/0'/0/0")],
       prefix: "persistence",
     },
@@ -67,7 +71,7 @@ async function coswasm_module_client_functions_testing() {
   let wallet_balance = Number(balance_res["amount"]) / 10 ** 6;
   console.log(`Wallet's XPRT balance = ${wallet_balance}`);
 
-  let codes = await query_wasm_codes(client, undefined, undefined);
+  let codes = await 1;
   console.log(codes);
   console.log("\n");
   let codeInfos = codes["codeInfos"];

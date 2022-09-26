@@ -20,7 +20,8 @@
     "build:contracts": "NODE_ENV=development ts-node ./scripts/contracts.ts",
     "clean": "NODE_ENV=development ./scripts/prepare.sh",
     "format": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "jest"
   },
   "author": "admin@persistence.one, buidl@astrotechlabs.com",
   "license": "ASLv2",

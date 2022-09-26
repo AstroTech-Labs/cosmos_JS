@@ -9,7 +9,7 @@
 # dist
 /main
 /module
-examples/helpers/node_modules
+/examples/helpers/node_modules
 
 # misc
 .env
