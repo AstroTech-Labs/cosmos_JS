@@ -1,6 +1,6 @@
 {
   "name": "cosmossdkjs",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "description": "Client side JS libraries for transaction generation, signing and broadcasting to interact with supported Cosmos SDK based blockchains",
   "main": "main/index.js",
   "module": "module/index.js",
