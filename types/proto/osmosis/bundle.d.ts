@@ -4541,13 +4541,23 @@ export declare namespace osmosis {
                     v1beta1: import("../cosmos/feegrant/v1beta1/tx.rpc.msg").MsgClientImpl;
                 };
                 gov: {
+                    v1: any;
                     v1beta1: import("../cosmos/gov/v1beta1/tx.rpc.msg").MsgClientImpl;
+                };
+                group: {
+                    v1: any;
+                };
+                nft: {
+                    v1beta1: any;
                 };
                 slashing: {
                     v1beta1: import("../cosmos/slashing/v1beta1/tx.rpc.msg").MsgClientImpl;
                 };
                 staking: {
                     v1beta1: import("../cosmos/staking/v1beta1/tx.rpc.msg").MsgClientImpl;
+                };
+                upgrade: {
+                    v1beta1: any;
                 };
                 vesting: {
                     v1beta1: import("../cosmos/vesting/v1beta1/tx.rpc.msg").MsgClientImpl;
@@ -4577,6 +4587,9 @@ export declare namespace osmosis {
             rpc: import("@osmonauts/helpers").Rpc;
         }) => Promise<{
             cosmos: {
+                app: {
+                    v1alpha1: any;
+                };
                 auth: {
                     v1beta1: import("../cosmos/auth/v1beta1/query.rpc.query").QueryClientImpl;
                 };
@@ -4596,10 +4609,17 @@ export declare namespace osmosis {
                     v1beta1: import("../cosmos/feegrant/v1beta1/query.rpc.query").QueryClientImpl;
                 };
                 gov: {
+                    v1: any;
                     v1beta1: import("../cosmos/gov/v1beta1/query.rpc.query").QueryClientImpl;
+                };
+                group: {
+                    v1: any;
                 };
                 mint: {
                     v1beta1: import("../cosmos/mint/v1beta1/query.rpc.query").QueryClientImpl;
+                };
+                nft: {
+                    v1beta1: any;
                 };
                 params: {
                     v1beta1: import("../cosmos/params/v1beta1/query.rpc.query").QueryClientImpl;
@@ -4641,6 +4661,51 @@ export declare namespace osmosis {
         createLCDClient: ({ restEndpoint }: {
             restEndpoint: string;
         }) => Promise<{
+            cosmos: {
+                auth: {
+                    v1beta1: any;
+                };
+                authz: {
+                    v1beta1: any;
+                };
+                bank: {
+                    v1beta1: any;
+                };
+                distribution: {
+                    v1beta1: any;
+                };
+                evidence: {
+                    v1beta1: any;
+                };
+                feegrant: {
+                    v1beta1: any;
+                };
+                gov: {
+                    v1: any;
+                    v1beta1: any;
+                };
+                group: {
+                    v1: any;
+                };
+                mint: {
+                    v1beta1: any;
+                };
+                nft: {
+                    v1beta1: any;
+                };
+                params: {
+                    v1beta1: any;
+                };
+                slashing: {
+                    v1beta1: any;
+                };
+                staking: {
+                    v1beta1: any;
+                };
+                upgrade: {
+                    v1beta1: any;
+                };
+            };
             osmosis: {
                 epochs: {
                     v1beta1: _301.LCDQueryClient;
